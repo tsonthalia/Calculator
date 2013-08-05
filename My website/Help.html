@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>49ers</title>
+	<link rel="stylesheet" type="text/css" href="./dist/css/bootstrap.css">
+	<script type="text/javascript" src="./dist/js/jquery.js"></script>
+	<script type="text/javascript" src="./dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="./dist/js/jquery.backstretch.min.js"></script>
+	<script type="text/javascript" src="./dist/js/Javawebsitescript.js"></script>
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+
+</head>
+<body>
+	<script>
+		$.backstretch('http://prod.static.49ers.clubs.nfl.com/assets/images/fans-only/downloads/2011/GameOn1900x1200.jpg')
+	</script>
+	<div style="background-color: rgba(247, 32, 32, 0.25)" class="navbar">
+	  <a style="font-size: 40px" class="navbar-brand" href="http://49ers.com" id="49over" data-placement="bottom" data-toggle="popover" data-content="Click to go straight to the 49ers website.">49ers</a>
+	  <ul style="font-size: 30px" class="nav navbar-nav">
+	    <li><a href="index.html" id="indexover" data-placement="bottom" data-toggle="popover" data-original-title="Click to go back to the Home page.">Home</a></li>
+	    <li style="background-color:#0026FF" class="active"><a href="#">Help</a></li>
+	    <li><a href="FAQ.html" id="FAQover" data-placement="bottom" data-toggle="popover" data-original-title="Click to see some frequently asked questions that may help you.">FAQ</a></li>
+	     <li><a href="Other.html" id="otherover" data-placement="bottom" data-toggle="popover" data-original-title="Click to see some special stuff in the website...">Other</a></li>
+	  </ul>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-offset-3">
+				<div style = "font-size:65; background-color: rgba(15,15,15,0)" class="jumbotron">
+					<p>Do you want to go directly to the 49ers home page?</p>
+					<p>Go to FAQ to see how to go straight to the 49ers website without searching it up.</p>
+					<br>
+					<div style="color: #000000" id='messagesDiv'></div>
+				    <input type='text' id='nameInput' placeholder='Name'>
+				    <input type='text' id='messageInput' placeholder='Message'>
+				    <script>
+				      var myDataRef = new Firebase('https://tanay.firebaseio.com/chat');
+				      $('#messageInput').keypress(function (e) {
+				        if (e.keyCode == 13) {
+				          var name = $('#nameInput').val();
+				          var text = $('#messageInput').val();
+				          myDataRef.push({name: name, text: text});
+				          $('#messageInput').val('');
+				        }
+				      });
+				      myDataRef.on('child_added', function(snapshot) {
+				        var message = snapshot.val();
+				        displayChatMessage(message.name, message.text);
+				      });
+				      function displayChatMessage(name, text) {
+				        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+				        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+				      };
+				    </script>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
